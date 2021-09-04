@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+# ~/.macos — https://mths.be/macos
+
+osascript -e 'tell application "System Preferences" to quit'
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+defaults write NSGlobalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000"
+defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+defaults write com.apple.dock "orientation" -string "left"
+defaults write com.apple.dock "tilesize" -int "48"
+defaults write com.apple.dock "autohide" -bool "false"
+defaults write com.apple.dock "show-recents" -bool "false"
+defaults write com.apple.dock "mineffect" -string "scale"
+defaults write com.apple.screencapture "disable-shadow"
+defaults write com.apple.screencapture "location" -string "~/Desktop/screenshots"
+defaults write com.apple.screencapture "show-thumbnail" -bool "true"
+defaults write com.apple.screencapture "type" -string "png"
+defaults write com.apple.finder "QuitMenuItem" -bool "false"
+defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "false"
+defaults write com.apple.Finder "AppleShowAllFiles" -bool "true"
+defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool "false"
+defaults write NSGlobalDomain "NSDocumentSaveNewDocumentsToCloud" -bool "false"
+defaults write NSGlobalDomain "NSToolbarTitleViewRolloverDelay" -float "0"
+defaults write NSGlobalDomain "NSTableViewDefaultSizeMode" -int "1"
+defaults write com.apple.menuextra.clock "FlashDateSeparators" -bool "false"
+defaults write com.apple.menuextra.clock "DateFormat" -string "\"d MMM h:mm\""
+defaults write com.apple.LaunchServices "LSQuarantine" -bool "false"
+
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+defaults write com.apple.CrashReporter DialogType -string "none"
+
+defaults write com.apple.helpviewer DevMode -bool true
+
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+
+sudo pmset -a lidwake 1
+sudo pmset -a autorestart 1
+sudo systemsetup -setrestartfreeze on
+sudo pmset -c sleep 0
+sudo pmset -a standbydelay 86400
+sudo systemsetup -setcomputersleep Off > /dev/null
+sudo pmset -a hibernatemode 0
+
+sudo rm /private/var/vm/sleepimage
+sudo touch /private/var/vm/sleepimage
+sudo chflags uchg /private/var/vm/sleepimage
+
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.finder NewWindowTarget -string "PfDe"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
+defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
+
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 36" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 36" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 36" ~/Library/Preferences/com.apple.finder.plist
+
+defaults write com.apple.finder FXPreferredViewStyle -string "icnv"
+chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+sudo chflags nohidden /Volumes
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+	General -bool true \
+	OpenWith -bool true \
+	Privileges -bool true
+
+defaults write com.apple.dock mineffect -string "scale"
+defaults write com.apple.dock minimize-to-application -bool true
+defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
+
+defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+defaults write com.apple.Safari HomePage -string "about:blank"
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+defaults write com.apple.Safari ShowFavoritesBar -bool false
+defaults write com.apple.Safari ShowSidebarInTopSites -bool false
+defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
+defaults write com.apple.Safari ProxiesInBookmarksBar "()"
+defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
+defaults write com.apple.Safari WebKitPluginsEnabled -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool false
+defaults write com.apple.Safari WebKitJavaEnabled -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
+defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
+defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false
+defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
+defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
+defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool false
+
+defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
+
+defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+hash tmutil &> /dev/null && sudo tmutil disablelocal
+
+defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool false
+
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+
+defaults write ~/Library/Preferences/org.gpgtools.gpgmail SignNewEmailsByDefault -bool false
+
+for app in "Activity Monitor" \
+	"Address Book" \
+	"Calendar" \
+	"cfprefsd" \
+	"Contacts" \
+	"Dock" \
+	"Finder" \
+	"Google Chrome" \
+	"Mail" \
+	"Messages" \
+	"Photos" \
+	"Safari" \
+	"SystemUIServer" \
+	"Terminal" \
+	"iCal"; do
+	killall "${app}" &> /dev/null
+done
+echo "Done. Note that some of these changes require a logout/restart to take effect."
