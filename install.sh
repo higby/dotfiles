@@ -31,7 +31,7 @@ printf "\n${BLUE}Homebrew installed and up to date!${NORMAL}\n"
 
 printf "${YELLOW}Installing Node...${NORMAL}\n"
 if test ! $(which nvm); then
-  /bin/bash -c "$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash)"
+  /bin/bash -c "$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/HEAD/install.sh | bash)"
 fi
 
 nvm install node
